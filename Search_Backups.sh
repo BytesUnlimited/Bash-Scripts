@@ -39,19 +39,20 @@
 
 # Variables
 
-TMP_DIR=/tmp/search_backups
+TMP_DIR="/tmp/search_backups"
 TMP_FILE="list_files.txt"
 BACKUP_DIR="/backup"
 WP_BACKUP_DIR="bytes-unlimited-wp"
 SQL_BACKUP_DIR="bytes-unlimited-sql"
 EMAIL_SUBJECT_LINE="Raspberry Pi Local Backup Reports"
-EMAIL=anthony@bytesunlimited.com
+EMAIL="anthony@bytesunlimited.com"
 
 # Fuctions
 
 # FINSH Function used to clean up the tmp file
 function finish {
-	rm -fr "$TMP_DIR/$TMP_FILE"
+	rm -f "$TMP_DIR/$TMP_FILE"
+	echo " Cleaned Up with Function"
 }
 
 # Start Script
@@ -61,34 +62,34 @@ if [ ! -d $TMP_DIR/ ]; then
         mkdir $TMP_DIR/
 fi
 
-if [ ! -f $TMP_DIR/TMP_FILE ]; then
-        touch $TMP_DIR/TMP_FILE
+if [ ! -f $TMP_DIR/$TMP_FILE ]; then
+        touch $TMP_DIR/$TMP_FILE
 fi
 
 # WP Data Backups
-printf "Raspberry Pi - Bytes Unlimited WP Data Backups: \n \n" >> $TMP_DIR/TMP_FILE
+printf "Raspberry Pi - Bytes Unlimited WP Data Backups: \n \n" > $TMP_DIR/$TMP_FILE
 files=($(find $BACKUP_DIR/$WP_BACKUP_DIR/ -maxdepth 1 -mindepth 1 -type d -regex "^.*$"))
 for item in ${files[*]}
 do
-  printf $item >> $TMP_DIR/TMP_FILE
-  echo -e "\n" >> $TMP_DIR/TMP_FILE
+  printf $item >> $TMP_DIR/$TMP_FILE
+  echo -e "\n" >> $TMP_DIR/$TMP_FILE
 done
-printf "\n" >> $TMP_DIR/TMP_FILE
-echo "----------------------------------------------------" >> $TMP_DIR/TMP_FILE
+printf "\n" >> $TMP_DIR/$TMP_FILE
+echo "----------------------------------------------------" >> $TMP_DIR/$TMP_FILE
 
 # MySQL Backups
-printf "\n Raspberry Pi - Bytes Unlimited MySQL Backups: \n \n" >> $TMP_DIR/TMP_FILE
+printf "\n Raspberry Pi - Bytes Unlimited MySQL Backups: \n \n" >> $TMP_DIR/$TMP_FILE
 files=($(find $BACKUP_DIR/$SQL_BACKUP_DIR/ -maxdepth 1 -mindepth 1 -type d -regex "^.*$"))
 for item in ${files[*]}
 do
-  printf $item >> $TMP_DIR/TMP_FILE
-  echo -e "\n" >> $TMP_DIR/TMP_FILE
+  printf $item >> $TMP_DIR/$TMP_FILE
+  echo -e "\n" >> $TMP_DIR/$TMP_FILE
 done
-printf "\n" >> $TMP_DIR/TMP_FILE
-echo "----------------------------------------------------" >> $TMP_DIR/TMP_FILE
+printf "\n" >> $TMP_DIR/$TMP_FILE
+echo "----------------------------------------------------" >> $TMP_DIR/$TMP_FILE
 
 # Send the contents of the daily tmp file to your email
-mail -s $EMAIL_SUBJECT_LINE $EMAIL < $TMP_DIR/TMP_FILE
+mail -s $EMAIL_SUBJECT_LINE $EMAIL < $TMP_DIR/$TMP_FILE
 
 # Delete tmp file when done
 trap finish EXIT
