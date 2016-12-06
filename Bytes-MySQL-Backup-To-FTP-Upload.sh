@@ -40,7 +40,7 @@
 #
 # Sample Crontab used:
 # # MySQL Dump and FTP
-# 0 2 * * * /bin/bash /backup/backup-scripts/Follett-MySQL-DB-Dump-And-Transfer.sh
+# 0 2 * * * /bin/bash /backup/backup-scripts/MySQL-DB-Dump-And-Transfer.sh
 #
 # --------------------------------------------------------------------------------
 
