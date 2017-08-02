@@ -31,6 +31,7 @@
 #
 
 # Variables
+TIME=`date +"%b-%d-%y"`
 OPENVPN_DIRECTORY=/etc/openvpn/easy-rsa
 OPENVPN_KEYS_DIRECTORY=/etc/openvpn/easy-rsa/keys
 REMOTE_EXTERNAL_IP=xxx.xxx.xxx.xxx
@@ -60,8 +61,13 @@ while [[ $1 = -* ]]; do
 	esac
 done
 
+# Adding Admin user accountability to logs
+echo ""
+echo "NOTICE - Admin User, $ADMIN_USER, is generating VPN keys for the Client, $USERNAME. - $TIME"
+echo ""
+
 # Traverse to directory
-echo "building files with name client_$USERNAME"
+echo "Building files with name client_$USERNAME"
 cd $OPENVPN_DIRECTORY
 
 # Source Vars
