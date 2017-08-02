@@ -62,9 +62,9 @@ while [[ $1 = -* ]]; do
 done
 
 # Adding Admin user accountability to logs
-echo ""
-echo "NOTICE - Admin User, $ADMIN_USER, is generating VPN keys for the Client, $USERNAME. - $TIME"
-echo ""
+logger -s -p authpriv.notice -t OpenVPN Script ""
+logger -s -p authpriv.notice -t OpenVPN Script "NOTICE - Admin User, $ADMIN_USER, is generating VPN keys for the Client, $USERNAME."
+logger -s -p authpriv.notice -t OpenVPN Script ""
 
 # Traverse to directory
 echo "Building files with name client_$USERNAME"
