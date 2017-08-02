@@ -50,7 +50,7 @@ then
 
 elif [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]];
 then
-  # Help Flag for us
+  # Help Flag for usage
   echo "client_distribute.sh --clientname <anyname> --adminuser <admin-name> "
   exit 1
 
