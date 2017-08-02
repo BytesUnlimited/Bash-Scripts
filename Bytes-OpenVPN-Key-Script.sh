@@ -103,6 +103,10 @@ echo "Compressing files..."
 cd $OPENVPN_KEYS_DIRECTORY
 tar -cvzf $USERNAME.tgz client_$USERNAME.* ca.crt ta.key
 
+# Remove any case sensitivity to Admin User variable for Linux Directory
+declare -l ADMIN_USER
+ADMIN_USER=$ADMIN_USER
+
 # Copy files to Admin user directory (Example - /home/user/)
 echo ""
 echo "Copying compressed files to $ADMIN_USER home directory..."
