@@ -34,40 +34,41 @@
 TIME=`date +"%b-%d-%y"`
 OPENVPN_DIRECTORY=/etc/openvpn/easy-rsa
 OPENVPN_KEYS_DIRECTORY=/etc/openvpn/easy-rsa/keys
-REMOTE_EXTERNAL_IP=xxx.xxx.xxx.xxx
+REMOTE_EXTERNAL_IP=208.113.81.248
 BASE_DIRECTORY=home
 
 #### Start Script ####
 
 # Script --help for Usage
-# While Loop to give help parameters and add username
-while [[ $1 = -* ]]; do
-	arg=$1; shift
-	case $arg in
-  # Help Flag for usage
-	 --help)
-		echo "client_distribute.sh --clientname <anyname> --adminuser <admin-name> ";exit
-		;;
+# If statement to process correct Arguments
+if [ -n "$2" ] && [ -n "$4" ]
+then
   # Client Name Flag
-	 --clientname)
-		USERNAME=$1
-		shift
-		;;
+  USERNAME=$2
   # Admin User Flag
-   --adminuser)
-    ADMIN_USER=$1
-    shift
-    ;;
-	esac
-done
+  ADMIN_USER=$4
+
+elif [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]];
+then
+  # Help Flag for us
+  echo "client_distribute.sh --clientname <anyname> --adminuser <admin-name> "
+  exit 1
+
+else
+  #  Admin user required Flag
+  echo "Error. Use --help for more info"
+  exit 1
+fi
 
 # Adding Admin user accountability to logs
+echo ""
 logger -s -p authpriv.notice -t OpenVPN Script ""
 logger -s -p authpriv.notice -t OpenVPN Script "NOTICE - Admin User, $ADMIN_USER, is generating VPN keys for the Client, $USERNAME."
 logger -s -p authpriv.notice -t OpenVPN Script ""
+echo ""
 
 # Traverse to directory
-echo "Building files with name client_$USERNAME"
+echo "Building files with name, client_$USERNAME"
 cd $OPENVPN_DIRECTORY
 
 # Source Vars
@@ -76,7 +77,7 @@ source ./vars
 # Call Script to build keys
 sh ./build-key client_$USERNAME
 
-# Echo in parameters 
+# Echo in parameters
 # Set below for your environment
 echo "client" > keys/client_$USERNAME.ovpn
 echo "tls-client" >> keys/client_$USERNAME.ovpn
@@ -103,14 +104,16 @@ echo "Compressing files..."
 cd $OPENVPN_KEYS_DIRECTORY
 tar -cvzf $USERNAME.tgz client_$USERNAME.* ca.crt ta.key
 
-# Remove any case sensitivity to Admin User variable for Linux Directory
+# Remove any case sensitivity to Admin User variable
 declare -l ADMIN_USER
 ADMIN_USER=$ADMIN_USER
 
 # Copy files to Admin user directory (Example - /home/user/)
 echo ""
 echo "Copying compressed files to $ADMIN_USER home directory..."
-cp $USERNAME.tgz /$BASE_DIRECTORY/$ADMIN_USER/
+cp $OPENVPN_KEYS_DIRECTORY/$USERNAME.tgz /$BASE_DIRECTORY/$ADMIN_USER/
 
 # Exit with Status Code
+echo "Script Successful - $TIME"
+echo ""
 exit 0
