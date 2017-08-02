@@ -34,7 +34,7 @@
 TIME=`date +"%b-%d-%y"`
 OPENVPN_DIRECTORY=/etc/openvpn/easy-rsa
 OPENVPN_KEYS_DIRECTORY=/etc/openvpn/easy-rsa/keys
-REMOTE_EXTERNAL_IP=208.113.81.248
+REMOTE_EXTERNAL_IP=xxx.xxx.xxx.xxx
 BASE_DIRECTORY=home
 
 #### Start Script ####
