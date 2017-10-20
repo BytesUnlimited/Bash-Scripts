@@ -54,9 +54,12 @@ echo "Creating MySQL Backup Directory $DESDIR/$LINUXTIME/"
 mkdir -p $DESDIR/$LINUXTIME/
 
 echo Dumping and Compressing MySQL Backup...
-mysqldump -u $SQLUSER | gzip > $DESDIR/$LINUXTIME/$FILENAME
+mysqldump -u $SQLUSER --triggers --routines --events --single-transaction --verbose --all-databases -r $DESDIR/$LINUXTIME/$FILENAME
+gzip -c -v --best $DESDIR/$LINUXTIME/$FILENAME > $DESDIR/$LINUXTIME/$FILENAME.gz
+rm -f $DESDIR/$LINUXTIME/$FILENAME
 echo file-compressed
 
 echo "MySQL Backup Complete! - $TIME"; echo
 
+exit 0
 #END
