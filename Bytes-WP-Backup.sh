@@ -55,7 +55,7 @@ echo "Creating WordPress Backup Directory $DESDIR/$LINUXTIME/"
 mkdir -p $DESDIR/$LINUXTIME/
 
 echo Copying and Compressing WordPress Backup...
-tar -cvpzf $DESDIR/$linuxtime/$FILENAME $SRCDIR
+tar -cvpzf $DESDIR/$LINUXTIME/$FILENAME $SRCDIR
 echo file-compressed
 
 echo "WordPress Data Backup Complete! - $TIME"; echo
